@@ -1,37 +1,34 @@
-#include <iostream>
-#include <cmath>
-#include <set>
-using namespace std;
-int main()
+class Solution
 {
-    int t;
-    cin >> t;
-    while (t--)
+public:
+    long long findScore(vector<int> &nums)
     {
-        int a, b, l;
-        cin >> a >> b >> l;
-        set<int> pos;
-        for (int i = 0; i <= l; ++i)
+        long long ans = 0;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<bool> check(nums.size(), false);
+        int n = nums.size();
+        for (int i = 0; i < n; i++)
         {
-            int pow_a = pow(a, i);
-            if (pow_a > l)
-            {
-                break;
-            }
-            for (int j = 0; j <= l; j++)
-            {
-                int value = pow_a * pow(b, j);
-                if (value > l)
-                {
-                    break;
-                }
-                if (l % value == 0)
-                {
-                    pos.insert(l / value);
-                }
-            }
+            pq.push({nums[i], i});
         }
-        cout << pos.size() << endl;
+        while (pq.size())
+        {
+            long long mini = pq.top().first;
+            long long pos = pq.top().second;
+            if (check[pos] == false)
+            {
+                ans += mini;
+                if (pos + 1 < n)
+                {
+                    check[pos + 1] = true;
+                }
+                if (pos - 1 >= 0)
+                {
+                    check[pos - 1] = true;
+                }
+            }
+            pq.pop();
+        }
+        return ans;
     }
-    return 0;
-}
+};
