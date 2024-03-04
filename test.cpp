@@ -1,34 +1,37 @@
 class Solution
 {
 public:
-    long long findScore(vector<int> &nums)
+    int solve(vector<vector<char>> &matrix, int i, int j, int row, int col, int &maxi, vector<vector<int>> &dp)
     {
-        long long ans = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        vector<bool> check(nums.size(), false);
-        int n = nums.size();
-        for (int i = 0; i < n; i++)
+        if (i >= row || j >= col)
         {
-            pq.push({nums[i], i});
+            return 0;
         }
-        while (pq.size())
+        if (dp[i][j] != -1)
         {
-            long long mini = pq.top().first;
-            long long pos = pq.top().second;
-            if (check[pos] == false)
-            {
-                ans += mini;
-                if (pos + 1 < n)
-                {
-                    check[pos + 1] = true;
-                }
-                if (pos - 1 >= 0)
-                {
-                    check[pos - 1] = true;
-                }
-            }
-            pq.pop();
+            return dp[i][j];
         }
-        return ans;
+        int right = solve(matrix, i, j + 1, row, col, maxi, dp);
+        int bottom = solve(matrix, i + 1, j, row, col, maxi, dp);
+        int diagonal = solve(matrix, i + 1, j + 1, row, col, maxi, dp);
+        if (matrix[i][j] == '1')
+        {
+            int ans = 1 + min(right, min(bottom, diagonal));
+            maxi = max(maxi, ans);
+            return ans;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    int maximalSquare(vector<vector<char>> &matrix)
+    {
+        int maxi = 0;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        vector<vector<int>> dp(row + 1, vector<int>(col + 1, -1));
+        solve(matrix, 0, 0, row, col, maxi, dp);
+        return maxi * maxi;
     }
 };
