@@ -4,8 +4,9 @@ import { IMG_CDN } from '../utils/constants'
 const MovieCard = ({ posterPath }) => {
     if (!posterPath) return null;
     return (
-        <div className="w-36 md:w-48 pr-4">
+        <div className="sm:w-48 w-36 mr-3 cursor-pointer">
             <img alt="Movie Card" src={IMG_CDN + posterPath} />
+            <div className='text-white font-bold relative  '>{posterPath?.title}</div>
         </div>
     );
 };
