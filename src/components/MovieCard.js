@@ -6,7 +6,6 @@ const MovieCard = ({ posterPath }) => {
     return (
         <div className="sm:w-48 w-36 mr-3 cursor-pointer">
             <img alt="Movie Card" src={IMG_CDN + posterPath} />
-            <div className='text-white font-bold relative  '>{posterPath?.title}</div>
         </div>
     );
 };
